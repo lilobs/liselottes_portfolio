@@ -34,13 +34,45 @@
 
   <script>
     // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = "3797414026";
+    const serviceWorkerVersion = "2762751074";
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
+  <style>
+    #splash {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+  
+    .spinner {
+      border: 4px solid rgba(0,0,0,0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border-left-color: black;
+      animation: spin 1s infinite linear;
+    }
+  
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
+  <div id="splash">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+
   <script>
+    
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
@@ -49,12 +81,22 @@
         },
         onEntrypointLoaded: function(engineInitializer) {
           engineInitializer.initializeEngine({
-          /// HERE 🚨
-          useColorEmoji: true,
+        
+         /// useColorEmoji: true,
           }).then(function(appRunner) {
             appRunner.runApp();
           });
         
+        }
+      });
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+      window.addEventListener('flutter-first-frame', function () {
+        var splash = document.getElementById('splash');
+        if (splash) {
+          splash.style.display = 'none';
         }
       });
     });
